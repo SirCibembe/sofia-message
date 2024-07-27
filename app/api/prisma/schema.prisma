@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// roles
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// model user
+
+model User {
+  userId           String    @id @default(uuid()) @map("user_id")
+  userName         String    @map("user_name")
+  userEmail        String    @unique @map("user_email")
+  userDescription  String?   @default("I am a mysterious who has yet to fill out my bio") @map("user_description")
+  userAvatarURL    String?   @map("user_avatar_url")
+  userPassword     String    @map("user_password")
+  created          DateTime  @default(now())
+  updated          DateTime  @default(now())
+  role             Role      @default(USER)
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+
+  @@map("user")
+}
+
+// model message
+
+model Message {
+  messageId      String   @id @unique @default(uuid())
+  messageContent String
+  created        DateTime @default(now())
+  updated        DateTime @default(now())
+  receiverId     String
+  senderId       String
+  sender         User     @relation("SentMessages", fields: [senderId], references: [userId], onDelete: Cascade)
+  receiver       User     @relation("ReceivedMessages", fields: [receiverId], references: [userId], onDelete: Cascade)
+
+  @@map("message")
+}
