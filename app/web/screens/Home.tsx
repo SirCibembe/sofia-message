@@ -17,7 +17,6 @@
 
 "use client";
 import ChatHeader from "@/components/ChatHeader";
-import ChatMessages from "@/components/ChatMessages";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 
@@ -35,7 +34,7 @@ export default function Home() {
          {/* <!-- Chat Header --> */}
          <ChatHeader />
          {/* <!-- Chat Messages --> */}
-         <ChatMessages />
+         
          {/* <!-- Chat Input --> */}
          {/* w-3/4 default width */}
          <div className="bg-white border-t border-gray-300 p-4 absolute bottom-0 md:w-2/4 lg:w-2/3">
