@@ -16,21 +16,15 @@ export default class UserController {
       const { userEmail, userPassword, userName } = req.body;
       try {
          if (!isValidEmail(userEmail)) {
-            res.status(400).json({
-               message: 'Invalid email adress'
-            });
+            res.send('Invalid email adress');
             return;
          }
          if (!isValidInput(userName)) {
-            res.status(400).json({
-               message: 'Enter a name'
-            });
+            res.send('Enter a name');
             return;
          }
          if (!isValidPassword(userPassword)) {
-            res.status(400).json({
-               message: 'The password must be at least 6 characters long, must contain at least one letter, must contain at least one number and must not be an empty string'
-            });
+            res.send('The password must be at least 6 characters long, must contain at least one letter, must contain at least one number and must not be an empty string');
             return;
          }
          /**

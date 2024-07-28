@@ -21,6 +21,10 @@ import Button from "@/components/Button";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { create } from '@/utils/userAPI';
 import { useState } from "react";
+import RegistrationSuccessPopup from '@/components/RegisterPop';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 type InputType = {
    userEmail: string;
@@ -29,17 +33,19 @@ type InputType = {
 }
 
 export default function Register() {
+   const [isVisible, setIsVisible] = useState(false);
    const [message, setMessage] = useState('');
    const { register, handleSubmit, reset } = useForm<InputType>();
 
    const onSubmit: SubmitHandler<InputType> = async (data) => {
       const resp = await create(data);
       const result = await resp;
-      setMessage(result.message);
       if (result.status == 'created') {
-         console.log("do something on creation of an account");
+         toast.success(result.message);
+         setIsVisible(!isVisible);
+         reset();
       }
-      reset();
+      toast.error(result);
    }
    return (
       <section className="bg-gray-50">
@@ -103,6 +109,10 @@ export default function Register() {
                </div>
             </div>
          </div>
+         <RegistrationSuccessPopup 
+            isVisible={isVisible}
+         />
+         <ToastContainer />
       </section>
    );
 }

@@ -23,13 +23,14 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { FaUserEdit, FaFileImage } from 'react-icons/fa';
 import { AuthContext } from "@/contexts/authContext";
 import axios from "axios";
-
+import axiosInstance from "@/utils/axios.config";
 
 interface InputProps {
    userName?: string;
    userEmail?: string;
    userAvatar?: string;
    userDescription?: string;
+   file: Buffer | any;
 }
 
 export default function UpdateProfile({
@@ -75,7 +76,7 @@ export default function UpdateProfile({
       // console.log(userName);
       const updateProfile: () => Promise<void> = async () => {
          try {
-            const resp = await axios.put(`http://localhost:8000/api/users/${userProfileId}`, {
+            const resp = await axiosInstance.put(`/api/users/${userProfileId}`, {
                headers: {
                   'Accept': 'application/json',
                },
@@ -131,9 +132,13 @@ export default function UpdateProfile({
                      {...register('userDescription')} className="mt-1 p-2 border rounded w-full" />
                </div>
 
-               <div className="bg-black my-4 p-4 flex items-center justify-center">
+               <div className="bg-gray-200 my-4 p-4 flex items-center justify-center rounded-md">
                   <FaFileImage size={24} color="white" />
-                  <input type="file" className="file:bg-slate-800 file:text-slate-800 file:collapse placeholder:hidden" placeholder="" />
+                  <input
+                     type="file"
+                     {...register('file', { required: true })}
+                     className="file:bg-gray-200 file:text-white file:border-none file:px-4 file:py-2 ml-4 cursor-pointer text-white"
+                  />
                </div>
 
                <div className="flex justify-end gap-5">

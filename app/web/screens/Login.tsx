@@ -20,9 +20,11 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Link from "next/link";
 import { signin } from '@/utils/userAPI';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '@/contexts/authContext';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 type Inputs = {
    userName: string
@@ -30,6 +32,7 @@ type Inputs = {
 }
 
 export default function Login() {
+   const [toastMessage, setToastMessage] = useState('');
    const { setCreated, setUserAvatarURL, setUserEmail, setUserId, setUserName, setUserDescription } = useContext(AuthContext);
    const router = useRouter();
    const {
@@ -43,7 +46,10 @@ export default function Login() {
          sessionStorage.clear();
          const resp = await signin(data);
          const result = await resp;
+         toast.error(result.error ? result.error : null);
+         toast.success(result.message ? result.message : null);
          const connectedUser = await result.data;
+         // toast(connectedUser.message);
          setUserName(await connectedUser.userName);
          setCreated(await connectedUser.created);
          setUserAvatarURL(await connectedUser.userAvatarURL);
@@ -55,8 +61,8 @@ export default function Login() {
          router.push('/home');
          localStorage.setItem('currentUserId', await connectedUser.userId);
          reset();
-      } catch (err) {
-         console.warn(err);
+      } catch (err: any) {
+         // toast.warn(err.message);
       }
    }
    return (
@@ -120,6 +126,9 @@ export default function Login() {
                </div>
             </div>
          </div>
+         <ToastContainer
+            theme='light'
+         />
       </section>
    );
 }

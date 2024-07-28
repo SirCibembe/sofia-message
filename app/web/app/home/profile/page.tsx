@@ -6,9 +6,9 @@ import UpdateProfile from "@/components/UpdateProfile";
 import { FaCalendarWeek, FaUserAltSlash } from 'react-icons/fa';
 import { FaUserCheck } from 'react-icons/fa';
 import { AuthContext } from "@/contexts/authContext";
-import axios from "axios";
 import axiosInstance from "@/utils/axios.config";
 import { useRouter } from "next/navigation";
+
 
 export default function ProfilePage() {
    const router = useRouter();
@@ -25,47 +25,53 @@ export default function ProfilePage() {
    }
 
    useEffect(() => {
-      const controller = new AbortController();
-      const fetchData = async () => {
-         try {
-            const currentUserData = await axiosInstance.get(`http://localhost:8000/api/users/${localStorage.getItem('currentUserId') || userId}`, {
-               // headers: {
-               //    // 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-               // }
-            });
-            const result = await currentUserData;
-            setUserProfile(result.data);
-            setLoading(!loading);
-         } catch (err) {
-            console.log('Failed to fetch users');
-            setLoading(!loading);
+      if (typeof window !== 'undefined') {
+         const controller = new AbortController();
+         const currentUserId = localStorage.getItem('currentUserId');
+         const token = localStorage.getItem('accessToken');
+         const fetchData = async () => {
+            try {
+               const currentUserData = await axiosInstance.get(`/api/users/${currentUserId || userId}`, {
+                  headers: {
+                     'authorization': `Bearer ${token}`
+                  }
+               });
+               const result = await currentUserData;
+               setUserProfile(result.data);
+               setLoading(!loading);
+            } catch (err) {
+               console.log('Failed to fetch users');
+               setLoading(!loading);
+            }
          }
+         fetchData()
+
       }
-      fetchData()
    }, []);
 
    // delete account 
    const deleteAccount: () => void = () => {
-
-      const fetchDeleteAccount: () => Promise<void> = async () => {
-         try {
-            const resp = await axios.delete(`http://localhost:8000/api/users/${localStorage.getItem('currentUserId') || userId}`, {
-               headers: {
-                  'Accept': 'application/json',
-               },
-               // data: JSON.stringify(updatedData)
-            });
-            const result = await resp.data;
-            console.log(result);
-            localStorage.clear();
-            sessionStorage.clear();
-            console.log('Deleting account');
-            router.push('/');
-         } catch (err) {
-            console.warn(err);
+      if (typeof window !== 'undefined') {
+         const fetchDeleteAccount: () => Promise<void> = async () => {
+            const currentUserId = localStorage.getItem('currentUserId');
+            try {
+               const resp = await axiosInstance.delete(`http://localhost:8000/api/users/${currentUserId || userId}`, {
+                  headers: {
+                     'Accept': 'application/json',
+                  },
+                  // data: JSON.stringify(updatedData)
+               });
+               const result = await resp.data;
+               localStorage.clear();
+               sessionStorage.clear();
+               router.push('/');
+            } catch (err) {
+               console.warn(err);
+            }
+            fetchDeleteAccount();
          }
       }
-      fetchDeleteAccount();
+
    };
 
    return (

@@ -6,7 +6,7 @@ CREATE TABLE "user" (
     "user_id" TEXT NOT NULL,
     "user_name" TEXT NOT NULL,
     "user_email" TEXT NOT NULL,
-    "user_description" TEXT,
+    "user_description" TEXT DEFAULT 'I am a mysterious who has yet to fill out my bio',
     "user_avatar_url" TEXT,
     "user_password" TEXT NOT NULL,
     "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -33,6 +33,9 @@ CREATE UNIQUE INDEX "user_user_email_key" ON "user"("user_email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "message_messageId_key" ON "message"("messageId");
+
+-- AddForeignKey
+ALTER TABLE "message" ADD CONSTRAINT "message_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "user"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "message" ADD CONSTRAINT "message_receiverId_fkey" FOREIGN KEY ("receiverId") REFERENCES "user"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;

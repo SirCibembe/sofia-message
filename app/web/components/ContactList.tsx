@@ -56,7 +56,6 @@ export default function ContactList() {
                <p className="text-sm text-gray-400 text-center">No contacts registered yet</p>
             ) : (
                contactList
-                  ?.filter((contact: any) => contact.userId != localStorage.getItem('currentUserId') || userId)
                   ?.map((user: any) => (
                      <Link
                         key={user.userId}

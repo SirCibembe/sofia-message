@@ -16,23 +16,35 @@
  */
 "use client";
 import { AuthContext } from "@/contexts/authContext";
-import Home from "@/screens/Home";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
+import Button from "@/components/Button";
 export default function HomeScreen() {
    const router = useRouter();
-   const currentUserId = localStorage.getItem('currentUserId');
-   const currentUserToken = localStorage.getItem('accessToken');
-   const { userId } = useContext(AuthContext);
-   if (!userId || (!currentUserId && currentUserToken))  {
-      localStorage.clear();
-      sessionStorage.clear();
-      router.push('/');
+   if (typeof window !== "undefined") {
+      const currentUserId = localStorage.getItem('currentUserId');
+      const currentUserToken = localStorage.getItem('accessToken');
+      const { userId } = useContext(AuthContext);
+      if (!userId || (!currentUserId && currentUserToken)) {
+         localStorage.clear();
+         sessionStorage.clear();
+         router.push('/');
+      }
    }
    // I will add another function to check if the user is authenticated with a good token
    return (
-      <div>
-         hello IRIS TALK
+      <div className="flex-1">
+         <div className="flex-1 h-screen flex items-center justify-center text-slate-800 flex-col gap-6 w-full">
+
+            <h1 className="text-2xl font-bold text-blue-500">{"Welcome to Iris-Talk".toUpperCase()}</h1>
+            <p className="my-4 italic text-xl">Your place to connect and share.</p>
+
+            <Button
+               title="Get Started"
+               className="bg-blue-500 hover:bg-blue-600"
+            />
+         </div>
+
       </div>
    );
 }

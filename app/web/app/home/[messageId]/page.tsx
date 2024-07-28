@@ -8,6 +8,7 @@ import { sendMessage } from "@/utils/messageAPI";
 import { AuthContext } from "@/contexts/authContext";
 import { AiFillWechat, } from 'react-icons/ai';
 import socket from "@/utils/socket.io.config";
+import safeLocalStorage from "@/utils/safeLocalStorage";
 
 type Inputs = {
    messageContent: string;
@@ -37,20 +38,28 @@ export default function MessageByUser({ params }: {
     */
 
    useEffect(() => {
-      const loadSenderUser = async () => {
-         try {
-            const currentUserData = await axios.get(`http://localhost:8000/api/users/${params.messageId}`, {
-               headers: {
-                  'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-               }
-            });
-            const result = await currentUserData;
-            setSenderName(await result.data.userName);
-         } catch (err) {
-            console.log('Failed to fetch users');
+      if (typeof window !== 'undefined') {
+         const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+         if (!token) {
+            console.log('No token found');
+            return;
          }
+         const loadSenderUser = async () => {
+            try {
+               const currentUserData = await axios.get(`http://localhost:8000/api/users/${params.messageId}`, {
+                  headers: {
+                     'Authorization': `Bearer ${token}`
+                  }
+               });
+               const result = await currentUserData;
+               setSenderName(await result.data.userName);
+            } catch (err) {
+               console.log('Failed to fetch users');
+            }
+         }
+         loadSenderUser()
       }
-      loadSenderUser()
+
    }, []);
 
    /**
@@ -58,21 +67,18 @@ export default function MessageByUser({ params }: {
     */
 
    useEffect(() => {
-      const fetchMessages = async () => {
-         try {
-            const resp = await axios.get(`http://localhost:8000/api/chats/${localStorage.getItem('currentUserId') || userId}/${params.messageId}`);
-            console.log('params', params.messageId);
-            console.log('userid', localStorage.getItem('currentUserId'));
-            console.log('user id context', userId);
-            const result = await resp.data;
-            console.log(result);
-            setMessageList(await result);
-            console.log('laoding all messages else say hello to sender');
-         } catch (err) {
-            console.log('Failed to fetch users');
+      if (typeof window !== 'undefined') {
+         const fetchMessages = async () => {
+            try {
+               const resp = await axios.get(`http://localhost:8000/api/chats/${localStorage.getItem('currentUserId') || userId}/${params.messageId}`);
+               const result = await resp.data;
+               setMessageList(await result);
+            } catch (err) {
+               console.log('Failed to fetch users');
+            }
          }
+         fetchMessages();
       }
-      fetchMessages();
    }, []);
 
    // send messages to the user 
@@ -86,12 +92,6 @@ export default function MessageByUser({ params }: {
          socket.on('receivedMessage', function (data) {
             setMessageList((prevMessageList: any) => [...prevMessageList, data]);
          });
-         // alert(d.messageContent);
-         //  i will emit and send the whole message to the user
-         // console.log(result);
-         // setMessageList(async function (prevMessageList: any) {
-         //    return [...prevMessageList, result]
-         // })
          reset();
       } catch (e) {
          console.warn(e);
