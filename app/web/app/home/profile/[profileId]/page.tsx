@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 'use client';
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { FaCalendarWeek, FaUserCheck } from 'react-icons/fa';
-
+import axiosInstance from "@/utils/axios.config";
 
 export default function ProfileId({ params }: {
     params: {
@@ -38,15 +37,17 @@ export default function ProfileId({ params }: {
         const controller = new AbortController();
         const fetchData = async () => {
             try {
-                const currentUserData = await axios.get(`http://localhost:8000/api/users/${params.profileId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('currentUserToken')}`
-                    }
-                });
-                const result = await currentUserData;
-                setUserProfile(result.data);
-                console.log(result.data);
-                setLoading(!loading);
+                if (typeof window !== "undefined") {
+                    const currentUserToken = localStorage.getItem('currentUserToken');
+                    const currentUserData = await axiosInstance.get(`/api/users/${params.profileId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${currentUserToken}`
+                        }
+                    });
+                    const result = await currentUserData;
+                    setUserProfile(result.data);
+                    setLoading(!loading);
+                }
             } catch (err) {
                 console.log('Failed to fetch users');
                 setLoading(!loading);

@@ -8,7 +8,7 @@ import { sendMessage } from "@/utils/messageAPI";
 import { AuthContext } from "@/contexts/authContext";
 import { AiFillWechat, } from 'react-icons/ai';
 import socket from "@/utils/socket.io.config";
-import safeLocalStorage from "@/utils/safeLocalStorage";
+import axiosInstance from "@/utils/axios.config";
 
 type Inputs = {
    messageContent: string;
@@ -46,7 +46,7 @@ export default function MessageByUser({ params }: {
          }
          const loadSenderUser = async () => {
             try {
-               const currentUserData = await axios.get(`http://localhost:8000/api/users/${params.messageId}`, {
+               const currentUserData = await axiosInstance.get(`/api/users/${params.messageId}`, {
                   headers: {
                      'Authorization': `Bearer ${token}`
                   }
@@ -69,8 +69,9 @@ export default function MessageByUser({ params }: {
    useEffect(() => {
       if (typeof window !== 'undefined') {
          const fetchMessages = async () => {
+            const currentUserId = localStorage.getItem('currentUserId');
             try {
-               const resp = await axios.get(`http://localhost:8000/api/chats/${localStorage.getItem('currentUserId') || userId}/${params.messageId}`);
+               const resp = await axiosInstance.get(`/api/chats/${currentUserId || userId}/${params.messageId}`);
                const result = await resp.data;
                setMessageList(await result);
             } catch (err) {
@@ -85,14 +86,17 @@ export default function MessageByUser({ params }: {
    const onSubmit: SubmitHandler<Inputs> = async (d) => {
       try {
          const { messageContent } = d;
-         const resp = await sendMessage(localStorage.getItem('currentUserId') || userId, params.messageId, messageContent);
-         const result = await resp;
-         // setMessageList((prevMessageList: any) => [...prevMessageList, result]);
-         socket.emit('sendMessage', result);
-         socket.on('receivedMessage', function (data) {
-            setMessageList((prevMessageList: any) => [...prevMessageList, data]);
-         });
-         reset();
+         if (typeof window !== 'undefined') {
+            const currentUserId = localStorage.getItem('currentUserId');
+            const resp = await sendMessage(currentUserId || userId, params.messageId, messageContent);
+            const result = await resp;
+            // setMessageList((prevMessageList: any) => [...prevMessageList, result]);
+            socket.emit('sendMessage', result);
+            socket.on('receivedMessage', function (data) {
+               setMessageList((prevMessageList: any) => [...prevMessageList, data]);
+            });
+            reset();
+         }
       } catch (e) {
          console.warn(e);
       }

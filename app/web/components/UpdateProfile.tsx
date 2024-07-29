@@ -22,7 +22,6 @@ import Input from "./Input";
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaUserEdit, FaFileImage } from 'react-icons/fa';
 import { AuthContext } from "@/contexts/authContext";
-import axios from "axios";
 import axiosInstance from "@/utils/axios.config";
 
 interface InputProps {
@@ -52,9 +51,9 @@ export default function UpdateProfile({
       const controller = new AbortController();
       const fetchData = async () => {
          try {
-            const currentUserData = await axios.get(`http://localhost:8000/api/users/${userProfileId}`, {
+            const currentUserData = await axiosInstance.get(`/api/users/${userProfileId}`, {
                headers: {
-                  'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                  'authorization': `Bearer ${localStorage.getItem('accessToken')}`
                }
             });
             const result = await currentUserData;
@@ -79,6 +78,7 @@ export default function UpdateProfile({
             const resp = await axiosInstance.put(`/api/users/${userProfileId}`, {
                headers: {
                   'Accept': 'application/json',
+                  'authorization': `Bearer ${localStorage.getItem('accessToken')}`
                },
                data: JSON.stringify(await updatedData)
             });

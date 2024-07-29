@@ -42,25 +42,27 @@ export default function Login() {
    } = useForm<Inputs>();
    const onSubmit: SubmitHandler<Inputs> = async (data: IUserLogin) => {
       try {
-         localStorage.clear();
-         sessionStorage.clear();
-         const resp = await signin(data);
-         const result = await resp;
-         toast.error(result.error ? result.error : null);
-         toast.success(result.message ? result.message : null);
-         const connectedUser = await result.data;
-         // toast(connectedUser.message);
-         setUserName(await connectedUser.userName);
-         setCreated(await connectedUser.created);
-         setUserAvatarURL(await connectedUser.userAvatarURL);
-         setUserEmail(await connectedUser.userEmail);
-         setUserId(await connectedUser.userId);
-         setUserDescription(await connectedUser.userDescription);
-         localStorage.setItem('accessToken', await connectedUser.accessToken);
-         sessionStorage.setItem('accessToken', await connectedUser.accessToken);
-         router.push('/home');
-         localStorage.setItem('currentUserId', await connectedUser.userId);
-         reset();
+         if (typeof window !== 'undefined') {
+            localStorage.clear();
+            sessionStorage.clear();
+            const resp = await signin(data);
+            const result = await resp;
+            toast.error(result.error ? result.error : null);
+            toast.success(result.message ? result.message : null);
+            const connectedUser = await result.data;
+            // toast(connectedUser.message);
+            setUserName(await connectedUser.userName);
+            setCreated(await connectedUser.created);
+            setUserAvatarURL(await connectedUser.userAvatarURL);
+            setUserEmail(await connectedUser.userEmail);
+            setUserId(await connectedUser.userId);
+            setUserDescription(await connectedUser.userDescription);
+            localStorage.setItem('accessToken', await connectedUser.accessToken);
+            sessionStorage.setItem('accessToken', await connectedUser.accessToken);
+            router.push('/home');
+            localStorage.setItem('currentUserId', await connectedUser.userId);
+            reset();
+         }
       } catch (err: any) {
          // toast.warn(err.message);
       }

@@ -19,6 +19,7 @@ import { AuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import Button from "@/components/Button";
+
 export default function HomeScreen() {
    const router = useRouter();
    if (typeof window !== "undefined") {
@@ -38,13 +39,11 @@ export default function HomeScreen() {
 
             <h1 className="text-2xl font-bold text-blue-500">{"Welcome to Iris-Talk".toUpperCase()}</h1>
             <p className="my-4 italic text-xl">Your place to connect and share.</p>
-
             <Button
                title="Get Started"
                className="bg-blue-500 hover:bg-blue-600"
             />
          </div>
-
       </div>
    );
 }

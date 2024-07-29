@@ -55,11 +55,10 @@ export default function ProfilePage() {
          const fetchDeleteAccount: () => Promise<void> = async () => {
             const currentUserId = localStorage.getItem('currentUserId');
             try {
-               const resp = await axiosInstance.delete(`http://localhost:8000/api/users/${currentUserId || userId}`, {
+               const resp = await axiosInstance.delete(`/api/users/${currentUserId || userId}`, {
                   headers: {
                      'Accept': 'application/json',
                   },
-                  // data: JSON.stringify(updatedData)
                });
                const result = await resp.data;
                localStorage.clear();

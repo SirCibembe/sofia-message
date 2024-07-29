@@ -23,7 +23,9 @@ import { useRouter } from "next/navigation";
 import Alert from "./Alert";
 import { useState } from "react";
 import { AiOutlineUserSwitch } from 'react-icons/ai';
+import { FaUserCircle } from 'react-icons/fa';
 import axios from "axios";
+import axiosInstance from "@/utils/axios.config";
 
 
 
@@ -34,12 +36,14 @@ export default function SidebarHeader({ avatarURL, }: { avatarURL?: string; }) {
       setIsVisible(!isVisible);
    }
    const signout = async () => {
-      const isSignout = await axios.get('http://localhost:8000/auth/signout');
-      const result = await isSignout.data;
-      console.log(result);
-      localStorage.clear();
-      sessionStorage.clear();
-      router.push('/');
+      if (typeof window !== 'undefined') {
+         const isSignout = await axiosInstance.get('/auth/signout');
+         const result = await isSignout.data;
+         console.log(result);
+         localStorage.clear();
+         sessionStorage.clear();
+         router.push('/');
+      }
    }
    return (
       <header className="p-4 border-b border-gray-300 flex justify-between items-center">
@@ -64,10 +68,9 @@ export default function SidebarHeader({ avatarURL, }: { avatarURL?: string; }) {
                   {avatarURL ? (
                      <Image src={avatarURL} alt="Avatar" layout="fill" className={`w-10 h-10`} />
                   ) : (
-                     <Avatar
-                        className="w-32 h-32"
-                        userName={"Birusha"}
-                        avatarURL={null}
+                     <FaUserCircle
+                        size={40}
+                        className="fill-blue-500"
                      />
                   )}
                </div>

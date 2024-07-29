@@ -21,7 +21,7 @@ import axios from 'axios';
 
 export async function list(signal?: AbortSignal) {
    try {
-      const response = await axiosInstance.get('http://localhost:8000/api/users/', {
+      const response = await axiosInstance.get('/api/users/', {
          signal: signal,
          headers: {
             'Accept': 'application/json',
