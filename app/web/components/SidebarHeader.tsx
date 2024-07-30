@@ -24,7 +24,6 @@ import Alert from "./Alert";
 import { useState } from "react";
 import { AiOutlineUserSwitch } from 'react-icons/ai';
 import { FaUserCircle } from 'react-icons/fa';
-import axios from "axios";
 import axiosInstance from "@/utils/axios.config";
 
 
@@ -47,7 +46,7 @@ export default function SidebarHeader({ avatarURL, }: { avatarURL?: string; }) {
    }
    return (
       <header className="p-4 border-b border-gray-300 flex justify-between items-center">
-         <Link href={'/home'} className="flex gap-3 items-center">
+         <div className="flex gap-3 items-center">
             <div>
                <svg
                   className="w-8 h-8 fill:bg-blue-500"
@@ -61,7 +60,7 @@ export default function SidebarHeader({ avatarURL, }: { avatarURL?: string; }) {
                </svg>
             </div>
             <h1 className="text-2xl font-semibold text-blue-400 hover:text-blue-500">IRIS</h1>
-         </Link>
+         </div>
          <div className="flex items-center gap-3">
             <Link href={'/home/profile'} className="flex items-center gap-3">
                <div className={`w-10 h-10 rounded-full text-gray-50 overflow-hidden hover:cursor-pointer`}>

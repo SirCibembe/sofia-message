@@ -31,7 +31,7 @@ export default function MessageByUser({ params }: {
 
    useEffect(() => {
       console.log('some connection');
-   }, [socket]);
+   }, []);
 
    /**
     * load the sender Name from the server

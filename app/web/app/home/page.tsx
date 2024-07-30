@@ -22,10 +22,11 @@ import Button from "@/components/Button";
 
 export default function HomeScreen() {
    const router = useRouter();
+   const { userId } = useContext(AuthContext);
+   
    if (typeof window !== "undefined") {
-      const currentUserId = localStorage.getItem('currentUserId');
       const currentUserToken = localStorage.getItem('accessToken');
-      const { userId } = useContext(AuthContext);
+      const currentUserId = localStorage.getItem('currentUserId');
       if (!userId || (!currentUserId && currentUserToken)) {
          localStorage.clear();
          sessionStorage.clear();

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+// import cloudinary from "../config/cloudinaryConfig";
 import userSchema from "../models/user.model";
 import isValidEmail from '../utils/isValidEmail';
 import isValidInput from '../utils/isValidInput';
@@ -27,6 +28,27 @@ export default class UserController {
             res.send('The password must be at least 6 characters long, must contain at least one letter, must contain at least one number and must not be an empty string');
             return;
          }
+
+         // Handle avatar URL if provided
+         // let avatarURL: string | null = null;
+         // if (userAvatarURL) {
+         //    try {
+         //       const result = await cloudinary.uploader.upload(userAvatarURL, {
+         //          folder: 'avatars' // Optionally specify a folder in Cloudinary
+         //       });
+         //       avatarURL = result.secure_url;
+         //    } catch (uploadError) {
+         //       res.status(400).json({
+         //          status: "Bad request",
+         //          message: "Avatar upload unsuccessful",
+         //          statusCode: 400,
+         //          error: uploadError.message
+         //       });
+         //       return;
+         //    }
+         // }
+
+
          /**
           * hash password in order to store it in the data
           * warning: Don't store plain text into a database
@@ -47,7 +69,7 @@ export default class UserController {
                userName: user.userName,
                userEmail: user.userEmail,
                userDescription: null,
-               userAvatarURL: null
+               userAvatarURL: user.userAvatarURL
             }
          });
       } catch (error: any) {

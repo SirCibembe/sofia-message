@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 "use client";
+
 import { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Button from "./Button";
@@ -45,90 +46,79 @@ export default function UpdateProfile({
    const [loading, setLoading] = useState(true);
    const [userProfile, setUserProfile] = useState<any>([]);
    const { register, handleSubmit } = useForm<InputProps>();
-   // load profile information
 
+   // Load profile information
    useEffect(() => {
-      const controller = new AbortController();
-      const fetchData = async () => {
+      const fetchUserInfo = async () => {
+         const controller = new AbortController();
          try {
             const currentUserData = await axiosInstance.get(`/api/users/${userProfileId}`, {
-               headers: {
-                  'authorization': `Bearer ${localStorage.getItem('accessToken')}`
-               }
+               signal: controller.signal,
             });
-            const result = await currentUserData;
-            setUserProfile(result.data);
-            setLoading(!loading);
+            setUserProfile(currentUserData.data);
+            setLoading(false);
          } catch (err) {
-            console.log('Failed to fetch users');
-            setLoading(!loading);
+            console.log('Failed to fetch user data', err);
+            setLoading(false);
          }
       }
-      fetchData()
-   }, []);
+      fetchUserInfo();
+
+   }, [userProfileId]);
 
    const onSubmit: SubmitHandler<InputProps> = async (updatedData) => {
-      // const { userName, userEmail, userDescription } = d;
-      // console.log(d);
-      // console.log(awai/t d.userName);
-      // console.log(d.userDescription);
-      // console.log(userName);
-      const updateProfile: () => Promise<void> = async () => {
-         try {
-            const resp = await axiosInstance.put(`/api/users/${userProfileId}`, {
-               headers: {
-                  'Accept': 'application/json',
-                  'authorization': `Bearer ${localStorage.getItem('accessToken')}`
-               },
-               data: JSON.stringify(await updatedData)
-            });
-            const result = await resp.data;
-            console.log(result);
-         } catch (err) {
-            console.warn(err);
+      if (typeof window !== undefined && window.localStorage !== undefined) {
+         const accessToken = localStorage.getItem('accessToken');
+         if (accessToken) {
+            try {
+               const response = await axiosInstance.put(`/api/users/${userProfileId}`, {
+                  userName: updatedData.userName,
+                  userEmail: updatedData.userEmail,
+                  userDescription: updatedData.userDescription,
+                  file: updatedData.file,
+               }, {
+                  headers: {
+                     'Accept': 'application/json',
+                     'authorization': `Bearer ${accessToken}`
+                  }
+               });
+               console.log('Profile updated', response.data);
+            } catch (err) {
+               console.warn('Error updating profile', err);
+            }
          }
       }
-      updateProfile();
    }
-
 
    return (
       <div className={`fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center ${visibility ? '' : "hidden"} `}>
          <form onSubmit={handleSubmit(onSubmit)} className="relative p-6 bg-white border border-gray-300 rounded-lg shadow">
-
             <button type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="popup-modal" onClick={cancel}>
-               <AiOutlineClose
-                  className="w-3 h-3"
-               />
+               <AiOutlineClose className="w-3 h-3" />
             </button>
-            {/* kdkddk */}
 
             <div className="p-4 md:p-5 text-center">
-               <FaUserEdit
-                  className='mx-auto mb-4 text-gray-400 w-12 h-12'
-               />
+               <FaUserEdit className='mx-auto mb-4 text-gray-400 w-12 h-12' />
                <h3 className="mb-5 text-lg font-normal text-gray-500">Edit Profile</h3>
-
-               {/* dkdkdk */}
 
                <Input
                   type="text"
                   register={register}
                   refLabel="userName"
                   label="Name"
-                  placeholder={userName ? userName : userProfile.userName}
+                  placeholder={userProfile.userName || userName}
                />
                <Input
                   type="email"
                   register={register}
                   refLabel="userEmail"
                   label="Email Address"
-                  placeholder={userName ? userEmail : userProfile.userEmail}
+                  placeholder={userProfile.userEmail || userEmail}
                />
 
                <div className="mb-4">
                   <label className="block text-sm font-medium">Description</label>
-                  <textarea placeholder={userProfile.userDescription ? userProfile.userDescription : userDescription ? userDescription : "I am a mysterious who has yet to fill out my bio"}
+                  <textarea placeholder={userProfile.userDescription || userDescription || "I am a mysterious person who has yet to fill out my bio"}
                      {...register('userDescription')} className="mt-1 p-2 border rounded w-full" />
                </div>
 

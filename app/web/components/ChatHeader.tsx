@@ -16,7 +16,7 @@
  */
 import Link from "next/link";
 
-export default function ChatHeader({ avatarURL = "", userName = "Unknown", userId }: { avatarURL?: string, userName?: string, userId?: string }) {
+export default function ChatHeader({ avatarURL = "", userName, userId }: { avatarURL?: string, userName: string, userId?: string }) {
    return (
       <header className="bg-white p-4 text-gray-700 flex justify-between border-b border-gray-200 w-full">
          <h1 className="text-2xl font-semibold">{userName}</h1>

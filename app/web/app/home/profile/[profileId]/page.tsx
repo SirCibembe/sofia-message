@@ -34,26 +34,19 @@ export default function ProfileId({ params }: {
         router.push(path);
     }
     useEffect(() => {
-        const controller = new AbortController();
+        // const controller = new AbortController();
         const fetchData = async () => {
             try {
-                if (typeof window !== "undefined") {
-                    const currentUserToken = localStorage.getItem('currentUserToken');
-                    const currentUserData = await axiosInstance.get(`/api/users/${params.profileId}`, {
-                        headers: {
-                            'Authorization': `Bearer ${currentUserToken}`
-                        }
-                    });
-                    const result = await currentUserData;
-                    setUserProfile(result.data);
-                    setLoading(!loading);
-                }
+                const currentUserData = await axiosInstance.get(`/api/users/${params.profileId}`);
+                const result = await currentUserData;
+                setUserProfile(result.data);
+                setLoading(!loading);
             } catch (err) {
                 console.log('Failed to fetch users');
                 setLoading(!loading);
             }
         }
-        fetchData()
+        fetchData();
     }, []);
     return (
         <div className="flex-1 p-32 items-center justify-center">

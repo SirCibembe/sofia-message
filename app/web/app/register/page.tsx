@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 import Register from "@/screens/Register"
-export default async function RegisterScreen() {
+export default function RegisterScreen() {
    return <Register />
 }
