@@ -16,4 +16,7 @@
  */
 import server from "./server";
 import mainConfig from "./config/config";
+import { initSocket } from './config/socket';
+
+initSocket(server);
 server.listen(mainConfig.port);

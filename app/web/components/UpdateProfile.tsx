@@ -24,6 +24,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { FaUserEdit, FaFileImage } from 'react-icons/fa';
 import { AuthContext } from "@/contexts/authContext";
 import axiosInstance from "@/utils/axios.config";
+import { log } from "console";
 
 interface InputProps {
    userName?: string;
@@ -42,10 +43,10 @@ export default function UpdateProfile({
    visibility: boolean;
    userProfileId?: string | null;
 }) {
+   const { register, handleSubmit } = useForm<InputProps>();
    const { userName, userDescription, userEmail } = useContext(AuthContext);
    const [loading, setLoading] = useState(true);
    const [userProfile, setUserProfile] = useState<any>([]);
-   const { register, handleSubmit } = useForm<InputProps>();
 
    // Load profile information
    useEffect(() => {
@@ -67,26 +68,23 @@ export default function UpdateProfile({
    }, [userProfileId]);
 
    const onSubmit: SubmitHandler<InputProps> = async (updatedData) => {
-      if (typeof window !== undefined && window.localStorage !== undefined) {
-         const accessToken = localStorage.getItem('accessToken');
-         if (accessToken) {
-            try {
-               const response = await axiosInstance.put(`/api/users/${userProfileId}`, {
-                  userName: updatedData.userName,
-                  userEmail: updatedData.userEmail,
-                  userDescription: updatedData.userDescription,
-                  file: updatedData.file,
-               }, {
-                  headers: {
-                     'Accept': 'application/json',
-                     'authorization': `Bearer ${accessToken}`
-                  }
-               });
-               console.log('Profile updated', response.data);
-            } catch (err) {
-               console.warn('Error updating profile', err);
+      alert("something happenned");
+      console.log('Submit');
+      console.log(updatedData);
+      try {
+         const response = await axiosInstance.put(`/api/users/${userProfileId}`, {
+            userName: updatedData.userName,
+            userEmail: updatedData.userEmail,
+            userDescription: updatedData.userDescription,
+            file: updatedData.file,
+         }, {
+            headers: {
+               'Accept': 'application/json',
             }
-         }
+         });
+         console.log('Profile updated', response.data);
+      } catch (err) {
+         console.warn('Error updating profile', err);
       }
    }
 
@@ -132,14 +130,9 @@ export default function UpdateProfile({
                </div>
 
                <div className="flex justify-end gap-5">
-                  <Button
-                     className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
-                     title="CANCEL"
-                     handleClick={cancel}
-                  />
                   <button
                      type="submit"
-                     className="font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center bg-blue-400 hover:bg-blue-500 text-gray-50  focus:ring-4 focus:ring-blue-300 focus:outline-none border focus:z-10"
+                     className="font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center bg-blue-400 hover:bg-blue-500 text-gray-50  focus:ring-4 focus:ring-blue-300 focus:outline-none border focus:z-10 w-full"
                   >
                      SAVE
                   </button>

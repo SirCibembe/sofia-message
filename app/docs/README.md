@@ -1,1 +1,1 @@
-# SOFIA-MESSAGE-APP
+# sofia-message-app

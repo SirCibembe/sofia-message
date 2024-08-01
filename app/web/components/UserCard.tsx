@@ -18,10 +18,10 @@
 import Avatar from "./Avatar";
 
 export default function UserCard({
-   userName,
+   userName = "unknown",
    userEmail,
 }: {
-   userName: string;
+   userName?: string;
    userEmail?: string;
 }) {
    return (
@@ -30,7 +30,6 @@ export default function UserCard({
             {/* <Avatar className="w-12 h-12" /> */}
             <Avatar
                className="w-32 h-32"
-               userName={userName}
                avatarURL={null}
             />
          </div>

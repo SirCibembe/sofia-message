@@ -14,15 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export default function Avatar({ avatarURL, userName }: { className?: string; avatarURL: string | null; userName: string }) {
+import { FaUserCircle } from 'react-icons/fa';
+
+
+export default function Avatar({ avatarURL }: { className?: string; avatarURL: string | null; }) {
     return (
-        <div className={`w-10 h-10 rounded-full bg-blue-400 text-gray-50 overflow-hidden hover:cursor-pointer`}>
+        <div className={`relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full`}>
             {avatarURL ? (
-                <img src={avatarURL} alt="Avatar" className={`w-10 h-10`} />
+                <img
+                    src={avatarURL}
+                    alt="profile-avatar"
+                    className={`w-12 h-12`}
+                />
             ) : (
-                <span className="text-xl font-medium flex items-center justify-center w-full h-full">
-                    {userName.charAt(0).toUpperCase()}
-                </span>
+                <FaUserCircle
+                    className='absolute w-12 h-12 text-gray-400 -left-1'
+                    fill="currentColor"
+                />
             )}
         </div>
     );

@@ -18,6 +18,7 @@ import { Response, Request, NextFunction } from 'express';
 import messageSchema from '../models/message.model';
 import client from '../client';
 import isValidInput from '../utils/isValidInput';
+import { getIo } from '../config/socket';
 export default class MessageController {
    /**
     * @public
@@ -189,7 +190,10 @@ export default class MessageController {
                   },
                },
             }
-         })
+         });
+
+         const io = getIo();
+         io.emit('newMessage', talkList);
          res.status(200).json(talkList);
       } catch (err) {
          res.status(400).json({
