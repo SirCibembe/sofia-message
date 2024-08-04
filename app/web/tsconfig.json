@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["inbox-web/next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/login/page.tsx", "components/Chat.jsx"],
+  "include": ["inbox-web/next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/login/page.tsx", "components/Chat.jsx", "app/(auth)/register"],
   "exclude": ["node_modules"]
 }

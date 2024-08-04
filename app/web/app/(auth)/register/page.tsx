@@ -14,12 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// import Login from "@/screens/Login";
+import RegisterForm from "@/components/forms/RegisterForm"
 
-
-export default function Home() {
-
-   return (
-      <h1>SOFIA MESSAGE</h1>
-   );
+export default function Register() {
+   return <RegisterForm />
 }

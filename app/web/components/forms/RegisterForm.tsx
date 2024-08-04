@@ -32,7 +32,7 @@ type InputType = {
    userName: string;
 }
 
-export default function Register() {
+export default function RegisterForm() {
    const [isVisible, setIsVisible] = useState(false);
    const [message, setMessage] = useState('');
    const { register, handleSubmit, reset } = useForm<InputType>();
@@ -103,13 +103,13 @@ export default function Register() {
                      </div>
 
                      <p className="text-sm font-light text-slate-800">
-                        Already have an account? <Link href="/" className="font-medium text-[#8098F9] hover:underline">Login here</Link>
+                        Already have an account? <Link href="/login" className="font-medium text-[#8098F9] hover:underline">Login here</Link>
                      </p>
                   </form>
                </div>
             </div>
          </div>
-         <RegistrationSuccessPopup 
+         <RegistrationSuccessPopup
             isVisible={isVisible}
          />
          <ToastContainer />

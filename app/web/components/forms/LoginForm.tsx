@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2024 Birusha Ndegeya, sofia and Contributors
+ * Copyright 2024 Birusha Ndegeya, SOFIA and Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import { signin } from '@/utils/userAPI';
 import { useContext, useState } from 'react';
 import { AuthContext } from '@/contexts/authContext';
 import { useRouter } from 'next/navigation';
+import appConfig from '@/config/app.config';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -31,8 +32,7 @@ type Inputs = {
    userPassword: string
 }
 
-export default function Login() {
-   const [toastMessage, setToastMessage] = useState('');
+export default function LoginForm() {
    const { setCreated, setUserAvatarURL, setUserEmail, setUserId, setUserName, setUserDescription } = useContext(AuthContext);
    const router = useRouter();
    const {
@@ -64,7 +64,7 @@ export default function Login() {
             reset();
          }
       } catch (err: any) {
-         // toast.warn(err.message);
+         toast.warn(err.message);
       }
    }
    return (

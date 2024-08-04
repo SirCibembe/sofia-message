@@ -14,7 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Register from "@/screens/Register"
-export default function RegisterScreen() {
-   return <Register />
+import { ReactNode } from "react";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+
+
+type RegisterLayoutProps = {
+   children: ReactNode;
+}
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+   title: "sofia-message-web-register",
+   description: "sofia-message-web-login chat-app social-media signup s'enregistrer",
+};
+
+export default function RegisterLayout({ children }: Readonly<RegisterLayoutProps>) {
+   return (
+      <html lang="en">
+         <body className={inter.className}>
+            {children}
+         </body>
+      </html>
+   );
 }

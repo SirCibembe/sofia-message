@@ -14,24 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ReactNode } from "react";
-import type { Metadata } from "next";
+import LoginForm from "@/components/forms/LoginForm";
 
-type RegisterLayoutProps = {
-   children: ReactNode;
-}
-
-export const metadata: Metadata = {
-   title: "iris registration",
-   description: "iris-talks, chat application social media register",
-};
-
-export default function RootLayout({ children }: Readonly<RegisterLayoutProps>) {
-   return (
-      <html lang="en">
-         <body>
-            {children}
-         </body>
-      </html>
-   );
+export default function Login() {
+   return <LoginForm />
 }

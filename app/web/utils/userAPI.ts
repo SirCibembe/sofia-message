@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import axiosInstance from './axios.config';
-import axios from 'axios';
+import appConfig from '@/config/app.config';
 
 // fetch all users available in the database
 
@@ -38,7 +38,7 @@ export async function list(signal?: AbortSignal) {
 
 export async function create(data: IUserRegister) {
    try {
-      let response = await axiosInstance.post('http://localhost:8000/api/users/', data, {
+      let response = await axiosInstance.post(`${appConfig.BACKEND_URL}/api/users/`, data, {
          headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -88,47 +88,3 @@ export async function signin(user: IUserLogin) {
       return err.response ? err.response.data : err.message;
    }
 }
-
-// export async function signin(user: string) {
-//    try {
-//       let response = await fetch('/auth/signin/', {
-//          method: 'POST',
-//          headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json'
-//          },
-//          credentials: 'include',
-//          body: JSON.stringify(user)
-//       })
-//       return await response.json()
-//    } catch (err) {
-//       console.log(err)
-//    }
-
-
-//    export async function read(): Promise<void> {
-//       console.log('reading...');
-//    }
-
-//    export async function update(): Promise<void> {
-//       console.log('updating...');
-//    }
-
-//    export async function remove(): Promise<void> {
-//       console.log('removing...');
-//    }
-
-/*
-template
-
-rentuser/', {
-      //    headers: {
-      //       'Authorization': `Bearer ${result?.data?.accessToken}`
-      //    }
-
-         // const currentUser = await axios.get('http://localhost:8000/api/getcurrentuser/', {
-      //    headers: {
-      //       'Authorization': `Bearer ${result?.data?.accessToken}`
-      //    }
-      // });
-*/
