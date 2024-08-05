@@ -15,30 +15,30 @@
  * limitations under the License.
  */
 "use client";
+import { useContext } from "react";
 import { AuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
-import Button from "@/components/Button";
-
+import Button from "@/components/ui/Button";
+import { useAuth } from "@/hooks/useAuth";
 export default function HomeScreen() {
-   const router = useRouter();
-   const { userId } = useContext(AuthContext);
+   useAuth();
+   console.log(useAuth());
+   // const router = useRouter();
+   // const { userId } = useContext(AuthContext);
    
-   if (typeof window !== "undefined") {
-      const currentUserToken = localStorage.getItem('accessToken');
-      const currentUserId = localStorage.getItem('currentUserId');
-      if (!userId || (!currentUserId && currentUserToken)) {
-         localStorage.clear();
-         sessionStorage.clear();
-         router.push('/');
-      }
-   }
-   // I will add another function to check if the user is authenticated with a good token
+   // if (typeof window !== "undefined") {
+   //    const currentUserToken = localStorage.getItem('accessToken');
+   //    const currentUserId = localStorage.getItem('currentUserId');
+   //    if (!userId || (!currentUserId && currentUserToken)) {
+   //       localStorage.clear();
+   //       sessionStorage.clear();
+   //       // router.push('/');
+   //    }
+   // }
    return (
       <div className="flex-1">
          <div className="flex-1 h-screen flex items-center justify-center text-slate-800 flex-col gap-6 w-full">
-
-            <h1 className="text-2xl font-bold text-blue-500">{"Welcome to Iris-Talk".toUpperCase()}</h1>
+            <h1 className="text-2xl font-bold text-blue-500">{"Welcome to SOFIA-MESSAGE".toUpperCase()}</h1>
             <p className="my-4 italic text-xl">Your place to connect and share.</p>
             <Button
                title="Get Started"

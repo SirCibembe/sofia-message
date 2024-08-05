@@ -14,14 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @public
- * CHECK IF THE GIVEN PASSWORD IS VALID
- * @param email {string}
- * @returns {boolean}
- */
-
 export default function isValidPassword(password: string): boolean {
    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
    return passwordRegex.test(password);

@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 "use client";
+import { useState } from "react";
 import Link from "next/link";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
+import Input from "../ui/Input";
+import Button from "../ui/Button";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { create } from '@/utils/userAPI';
-import { useState } from "react";
 import RegistrationSuccessPopup from '@/components/RegisterPop';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,7 +34,6 @@ type InputType = {
 
 export default function RegisterForm() {
    const [isVisible, setIsVisible] = useState(false);
-   const [message, setMessage] = useState('');
    const { register, handleSubmit, reset } = useForm<InputType>();
 
    const onSubmit: SubmitHandler<InputType> = async (data) => {

@@ -23,7 +23,6 @@ import { signin } from '@/utils/userAPI';
 import { useContext, useState } from 'react';
 import { AuthContext } from '@/contexts/authContext';
 import { useRouter } from 'next/navigation';
-import appConfig from '@/config/app.config';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -38,7 +37,6 @@ export default function LoginForm() {
    const {
       register,
       handleSubmit,
-      reset
    } = useForm<Inputs>();
    const onSubmit: SubmitHandler<Inputs> = async (data: IUserLogin) => {
       try {
@@ -51,17 +49,16 @@ export default function LoginForm() {
             toast.success(result.message ? result.message : null);
             const connectedUser = await result.data;
             // toast(connectedUser.message);
-            setUserName(await connectedUser.userName);
-            setCreated(await connectedUser.created);
-            setUserAvatarURL(await connectedUser.userAvatarURL);
-            setUserEmail(await connectedUser.userEmail);
-            setUserId(await connectedUser.userId);
-            setUserDescription(await connectedUser.userDescription);
+            // setUserName(await connectedUser.userName);
+            // setCreated(await connectedUser.created);
+            // setUserAvatarURL(await connectedUser.userAvatarURL);
+            // setUserEmail(await connectedUser.userEmail);
+            // setUserId(await connectedUser.userId);
+            // setUserDescription(await connectedUser.userDescription);
             localStorage.setItem('accessToken', await connectedUser.accessToken);
             sessionStorage.setItem('accessToken', await connectedUser.accessToken);
-            router.push('/home');
+            router.push('/');
             localStorage.setItem('currentUserId', await connectedUser.userId);
-            reset();
          }
       } catch (err: any) {
          toast.warn(err.message);

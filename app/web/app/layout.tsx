@@ -16,30 +16,24 @@
  */
 import { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import AuthProvider from "@/providers/AuthProvider";
-import "./index.css";
-
+import './index.css';
 
 type RootLayoutProps = {
    children: ReactNode;
 }
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
    title: "sofia-message-web",
-   description: "sofia-message homepage social media application",
+   description: "home page, homescreen sofia-message-web",
 };
+
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
    return (
       <html lang="en">
-         <AuthProvider>
-            <body className={inter.className}>
-               {children}
-            </body>
-         </AuthProvider>
+         <body>
+            {children}
+         </body>
       </html>
    );
 }

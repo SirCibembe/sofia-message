@@ -23,11 +23,7 @@ import notFound from './controllers/notfound';
 import userRouter from './routes/user.routes';
 import authRouter from './routes/auth.routes';
 import messageRouter from './routes/message.routes';
-import currentUserRouter from './routes/current.routes';
 import http from 'http';
-// import { initSocket } from "./config/socket";
-// import { Server, Socket } from 'socket.io'
-// import mainConfig from './config/config';
 
 const app: Application = express();
 app.use(cors());
@@ -37,39 +33,8 @@ app.use(compress());
 app.use(helmet());
 
 const server = http.createServer(app);
-// export const io = new Server(server, {
-//    cors: {
-//       origin: mainConfig.WEB_LINK,
-//       methods: ['GET', 'POST', 'PUT', 'DELETE']
-//    }
-// });
-
-// io.on('connection', function (socket: Socket) {
-//    console.log('User Id: ', socket.id);
-//    console.log('User Name: ', socket.id) ;
-
-//    // console.log('working!!');
-
-//    socket.on('sendMessage', function (data: any) {
-//       socket.broadcast.emit('receivedMessage', data);
-//       console.log(data);
-//    })
-
-
-//    // socket.on('message', function (data: any) {
-//    //    console.log(data);
-//    // });
-
-//    socket.on('disconnect', () => {
-//       console.log(`user disconnected ${socket.id}`);
-//    });
-// });
-
-app.use('/api/getcurrentuser/', currentUserRouter);
 app.use('/', authRouter);
 app.use('/', userRouter);
 app.use('/', messageRouter);
 app.get('*', notFound)
-
-
 export default server;

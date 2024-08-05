@@ -88,7 +88,7 @@ export default function ProfileId({ params }: {
                     <Button
                         className="bg-blue-400 hover:bg-blue-500 w-full focus:ring-blue-300 justify-center items-center"
                         title="GO BACK"
-                        handleClick={() => goBack(`/home/${params.profileId}`)}
+                        handleClick={() => goBack(`/${params.profileId}`)}
                     />
                 </div>
                 {/* Card end */}

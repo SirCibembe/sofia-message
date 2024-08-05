@@ -6,16 +6,17 @@ import UserMessage from "@/components/UserMessage";
 import { sendMessage } from "@/utils/messageAPI";
 import { AuthContext } from "@/contexts/authContext";
 import { AiFillWechat, } from 'react-icons/ai';
-import socket from "@/utils/socket.io.config";
-import axiosInstance from "@/utils/axios.config";
+import socket from "@/config/socket.io.config";
+import axiosInstance from "@/config/axios.config";
+
 
 type Inputs = {
    messageContent: string;
 }
 
-export default function MessageByUser({ params }: {
+export default function ChatByUser({ params }: {
    params: {
-      messageId: string;
+      chatId: string;
    }
 }) {
 
@@ -46,7 +47,7 @@ export default function MessageByUser({ params }: {
    useEffect(() => {
       const loadSenderUser = async () => {
          try {
-            const currentUserData = await axiosInstance.get(`/api/users/${params.messageId}`);
+            const currentUserData = await axiosInstance.get(`/api/users/${params.chatId}`);
             const result = await currentUserData;
             setSenderName(await result.data.userName);
          } catch (err) {
@@ -65,7 +66,7 @@ export default function MessageByUser({ params }: {
          const fetchMessages = async () => {
             const currentUserId = localStorage.getItem('currentUserId');
             try {
-               const resp = await axiosInstance.get(`/api/chats/${currentUserId || userId}/${params.messageId}`);
+               const resp = await axiosInstance.get(`/api/chats/${currentUserId || userId}/${params.chatId}`);
                const result = await resp.data;
                setMessageList(await result);
             } catch (err) {
@@ -82,7 +83,7 @@ export default function MessageByUser({ params }: {
          const { messageContent } = d;
          if (typeof window !== 'undefined') {
             const currentUserId = localStorage.getItem('currentUserId');
-            const resp = await sendMessage(currentUserId || userId, params.messageId, messageContent);
+            const resp = await sendMessage(currentUserId || userId, params.chatId, messageContent);
             const result = await resp;
             setMessageList((prevMessageList: any) => [...prevMessageList, result]);
             socket.emit('sendMessage', messageContent);
@@ -102,7 +103,7 @@ export default function MessageByUser({ params }: {
          {/* <!-- Chat Header --> */}
          <ChatHeader
             userName={senderName}
-            userId={params.messageId}
+            userId={params.chatId}
          />
          {/* <!-- Chat Messages --> */}
          <div className="h-screen overflow-y-auto p-4 pb-36">

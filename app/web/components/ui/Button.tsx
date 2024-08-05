@@ -14,11 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import images from "./images";
-import colors from "./colors";
-
-
-export default {
-   images,
-   colors
+"use client";
+import { SubmitHandler } from "react-hook-form";
+export default function Button({
+   title,
+   type,
+   className,
+   handleClick
+}: {
+   title?: string;
+   type?: "reset" | "button" | undefined;
+   className?: string;
+   handleClick?: () => void | null | SubmitHandler<InputProps>;
+}
+) {
+   return (
+      <button
+         type={type}
+         onClick={handleClick}
+         className={`text-gray-50 focus:ring-4 focus:outline-none font-medium rounded-lg flex text-medium items-center px-5 py-2.5 text-center justify-center  ${className}`}
+      >
+         {title?.toUpperCase()}
+      </button>
+   );
 }

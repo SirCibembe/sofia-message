@@ -7,7 +7,7 @@ import dynamic, { noSSR } from "next/dynamic";
 import { FaCalendarWeek, FaUserAltSlash } from 'react-icons/fa';
 import { FaUserCheck } from 'react-icons/fa';
 import { AuthContext } from "@/contexts/authContext";
-import axiosInstance from "@/utils/axios.config";
+import axiosInstance from "@/config/axios.config";
 import { useRouter } from "next/navigation";
 
 

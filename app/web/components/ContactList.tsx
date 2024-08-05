@@ -36,7 +36,8 @@ export default function ContactList() {
          }
       }
       fetchData()
-   }, []);
+   }, [userId, contactList]);
+   
    return (
       <div className="overflow-y-auto h-screen p-3 mb-9 pb-20">
 
@@ -59,7 +60,7 @@ export default function ContactList() {
                   ?.map((user: any) => (
                      <Link
                         key={user.userId}
-                        href={`/home/${user.userId}`}>
+                        href={`/${user.userId}`}>
                         <UserCard
                            userName={user.userName}
                            userEmail={user.userDescription ? user.userDescription : "I am a mysterious who has yet to fill out my bio"}

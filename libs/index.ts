@@ -1,3 +1,0 @@
-/**
- * All local packages
- */

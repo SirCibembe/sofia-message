@@ -14,14 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @public
- * CHECK IF INPUT VALUE IS VALID
- * @param email {string}
- * @returns {boolean}
- */
-
 export default function isValidInput(name: string): boolean {
    return name.length > 0;
 };

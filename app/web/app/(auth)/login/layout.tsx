@@ -26,8 +26,8 @@ type LoginLayoutProps = {
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-   title: "sofia-message-web-login",
-   description: "sofia-message-web-login chat-app social-media",
+   title: "sofia-message-web",
+   description: "sofia-message-web-login chat-app social-media login page",
 };
 
 export default function LoginLayout({ children }: Readonly<LoginLayoutProps>) {

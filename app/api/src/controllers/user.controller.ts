@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-// import cloudinary from "../config/cloudinaryConfig";
 import userSchema from "../models/user.model";
 import isValidEmail from '../utils/isValidEmail';
 import isValidInput from '../utils/isValidInput';
@@ -247,6 +246,8 @@ export default class UserController {
       } catch (error: any) {
          res.status(400).json({});
          return;
+      } finally {
+         await client.$disconnect();
       }
    }
 }

@@ -6,7 +6,7 @@ const RegistrationSuccessPopup = ({ isVisible }: {
 }) => {
    const router = useRouter();
    const redirectToLogin = () => {
-      router.push('/');
+      router.push('/login');
    };
    return (
       <div className={`overflow-y-auto overflow-x-hidden absolute top-0 right-0 left-0 z-50 md:inset-0 h-screen w-screen fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center ${isVisible ? "" : 'hidden'}`}>

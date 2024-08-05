@@ -14,22 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { ReactNode } from "react";
 import type { Metadata } from "next";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/layouts/Sidebar";
+import { useAuth } from "@/hooks/useAuth";
+// import './index.css';
 
-type HomeLayoutProps = {
+type RootLayoutProps = {
    children: ReactNode;
 }
 
 export const metadata: Metadata = {
-   title: "home",
-   description: "home, page d'acceuil, landing page, sofia, iris-chat social media reseau social home page page d'acceuil",
+   title: "sofia-message-web",
+   description: "home page, homescreen sofia-message-web",
 };
 
 
-export default function RootLayout({ children }: Readonly<HomeLayoutProps>) {
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
+   // const isLogged = useAuth();
+
+   // if (!isLogged) {
+   //    return <h1>Loading...</h1>
+   // }
+
    return (
       <html lang="en">
          <body>

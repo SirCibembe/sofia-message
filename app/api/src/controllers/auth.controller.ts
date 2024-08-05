@@ -2,18 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import userSchema, { authenticate } from "../models/user.model";
 import jwt from 'jsonwebtoken';
 import mainConfig from '../config/config';
-import { expressjwt } from 'express-jwt'; // warning should work in the browser with this dependancy I must install it tomorrow
-
-
-
-// export const requireSignin = expressJwt({
-//    secret: mainConfig.jwtSecret,
-//    userProperty: 'auth'
-// });
-
-// export function sign() {
-
-// }
+import { expressjwt } from 'express-jwt';
 
 export default class AuthController {
    static async signin(req: Request, res: Response): Promise<void> {
@@ -82,5 +71,23 @@ export default class AuthController {
       }
       console.log(authorized);
       next();
+   }
+
+   /**
+    * VERIFY TOKEN
+    */
+
+   static async verifyToken(req: Request, res: Response) {
+      const token = req.body.token;
+      if (!token) {
+         res.send({ authenticated: false });
+         return;
+      }
+      jwt.verify(token, mainConfig.jwtSecret, (err: any, _: any) => {
+         if (err) {
+            res.status(401).send({ authenticated: false });
+         }
+         res.send({ authenticated: true });
+      });
    }
 }

@@ -14,9 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PrismaClient, Role } from '@prisma/client';
-
-
+import { PrismaClient } from '@prisma/client';
 const client = new PrismaClient();
-export const role = Role;
 export default client;
