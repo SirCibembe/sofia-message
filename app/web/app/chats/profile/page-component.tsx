@@ -1,3 +1,19 @@
+/**
+ * @license
+ * Copyright 2024 Birusha Ndegeya, sofia and Contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 "use client";
 import { useState, useContext, useEffect } from "react";
 import Button from "@/components/ui/Button";
@@ -8,6 +24,8 @@ import { FaUserCheck } from 'react-icons/fa';
 import { AuthContext } from "@/contexts/authContext";
 import axiosInstance from "@/config/axios.config";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const UpdateProfile = dynamic(() => import('@/components/ui/UpdateProfile'), { ssr: false });
@@ -30,15 +48,13 @@ export default function ProfilePage() {
    useEffect(() => {
       if (typeof window !== 'undefined') {
          const controller = new AbortController();
-         // const currentUserId = localStorage.getItem('currentUserId');
-         // const token = localStorage.getItem('accessToken');
+         const currentUserId = localStorage.getItem('currentUserId');
          const fetchData = async () => {
             try {
-               const currentUserData = await axiosInstance.get(`/api/users/${userId}`);
+               const currentUserData = await axiosInstance.get(`/api/users/${userId || currentUserId}`);
                setUserProfile(currentUserData.data);
                setLoading(false);
             } catch (err) {
-               console.log('Failed to fetch users');
                setLoading(false);
             }
          }
@@ -50,18 +66,21 @@ export default function ProfilePage() {
    const deleteAccount = () => {
       if (typeof window !== 'undefined') {
          const fetchDeleteAccount = async () => {
-            // const currentUserId = localStorage.getItem('currentUserId');
+            const currentUserId = localStorage.getItem('currentUserId');
             try {
-               const resp = await axiosInstance.delete(`/api/users/${userId}`, {
+               const resp = await axiosInstance.delete(`/api/users/${userId || currentUserId}`, {
                   headers: {
                      'Accept': 'application/json',
                   },
                });
-               // localStorage.clear();
-               // sessionStorage.clear();
-               router.push('/');
-            } catch (err) {
-               console.warn(err);
+               const result = await resp.data;
+               toast.success(result.message ? result.message : null);
+               toast.error(result.error ? result.error : null);
+               localStorage.clear();
+               sessionStorage.clear();
+               router.push('/login');
+            } catch (err: any) {
+               toast.warn(err.message);
             }
          }
          fetchDeleteAccount();
@@ -92,7 +111,7 @@ export default function ProfilePage() {
                            <p className="text-slate-500 text-sm">{userEmail || userProfile.userEmail}</p>
                            <div className="text-slate-500 text-sm flex gap-3 items-center py-2">
                               <FaCalendarWeek size={18} />
-                              <p>Joined {created || userProfile.created}</p>
+                              <p>Joined {String(created).split('T')[0] || String(userProfile.created).split('T')[0]}</p>
                            </div>
                            <p>{userDescription || userProfile.userDescription || "I am a mysterious person who has yet to fill out my bio"}</p>
                         </div>
@@ -128,7 +147,7 @@ export default function ProfilePage() {
                userProfileId={localStorage.getItem('currentUserId') || userId}
             />
          }
-
+         <ToastContainer />
       </div>
    );
 }

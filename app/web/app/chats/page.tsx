@@ -15,26 +15,10 @@
  * limitations under the License.
  */
 "use client";
-import { useContext } from "react";
-import { AuthContext } from "@/contexts/authContext";
-import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 export default function HomeScreen() {
    useAuth();
-   console.log(useAuth());
-   // const router = useRouter();
-   // const { userId } = useContext(AuthContext);
-   
-   // if (typeof window !== "undefined") {
-   //    const currentUserToken = localStorage.getItem('accessToken');
-   //    const currentUserId = localStorage.getItem('currentUserId');
-   //    if (!userId || (!currentUserId && currentUserToken)) {
-   //       localStorage.clear();
-   //       sessionStorage.clear();
-   //       // router.push('/');
-   //    }
-   // }
    return (
       <div className="flex-1">
          <div className="flex-1 h-screen flex items-center justify-center text-slate-800 flex-col gap-6 w-full">

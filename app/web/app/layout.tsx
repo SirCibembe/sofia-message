@@ -16,6 +16,7 @@
  */
 import { ReactNode } from "react";
 import type { Metadata } from "next";
+import AuthProvider from "@/providers/AuthProvider";
 import './index.css';
 
 type RootLayoutProps = {
@@ -32,7 +33,9 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
    return (
       <html lang="en">
          <body>
-            {children}
+            <AuthProvider>
+               {children}
+            </AuthProvider>
          </body>
       </html>
    );

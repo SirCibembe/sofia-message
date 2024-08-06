@@ -22,6 +22,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { FaUserEdit, FaFileImage } from 'react-icons/fa';
 import { AuthContext } from "@/contexts/authContext";
 import axiosInstance from "@/config/axios.config";
+import { toast, ToastContainer } from "react-toastify";
 
 interface InputProps {
    userName?: string;
@@ -41,8 +42,7 @@ export default function UpdateProfile({
    userProfileId?: string | null;
 }) {
    const { register, handleSubmit } = useForm<InputProps>();
-   const { userName, userDescription, userEmail } = useContext(AuthContext);
-   const [loading, setLoading] = useState(true);
+   const { userName, userDescription, userEmail, setUserDescription, setUserEmail, setUserName } = useContext(AuthContext);
    const [userProfile, setUserProfile] = useState<any>([]);
 
    // Load profile information
@@ -54,10 +54,8 @@ export default function UpdateProfile({
                signal: controller.signal,
             });
             setUserProfile(currentUserData.data);
-            setLoading(false);
-         } catch (err) {
-            console.log('Failed to fetch user data', err);
-            setLoading(false);
+         } catch (err: any) {
+            toast.info(err.message);
          }
       }
       fetchUserInfo();
@@ -70,31 +68,34 @@ export default function UpdateProfile({
       console.log(updatedData);
       try {
          const response = await axiosInstance.put(`/api/users/${userProfileId}`, {
-            userName: updatedData.userName,
-            userEmail: updatedData.userEmail,
-            userDescription: updatedData.userDescription,
-            file: updatedData.file,
+            userName: updatedData.userName ? updatedData.userName : userProfile.userName || userName,
+            userEmail: updatedData.userEmail ? updatedData.userEmail : userProfile.userEmail || userEmail,
+            userDescription: updatedData.userDescription ? updatedData.userDescription : userProfile.userDescription || userDescription,
+            // file: updatedData.file,
          }, {
             headers: {
                'Accept': 'application/json',
             }
          });
-         console.log('Profile updated', response.data);
-      } catch (err) {
-         console.warn('Error updating profile', err);
+         const result = await response.data;
+         toast.success(result.message ? result.message : null);
+         setUserDescription
+         toast.error(result.error ? result.error : null);
+      } catch (err: any) {
+         toast.info(err.message);
       }
    }
 
    return (
       <div className={`fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center ${visibility ? '' : "hidden"} `}>
-         <form onSubmit={handleSubmit(onSubmit)} className="relative p-6 bg-white border border-gray-300 rounded-lg shadow">
+         <form onSubmit={handleSubmit(onSubmit)} className="relative p-6 bg-white border border-gray-300 rounded-lg shadow md:w-3/4">
             <button type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="popup-modal" onClick={cancel}>
                <AiOutlineClose className="w-3 h-3" />
             </button>
 
             <div className="p-4 md:p-5 text-center">
                <FaUserEdit className='mx-auto mb-4 text-gray-400 w-12 h-12' />
-               <h3 className="mb-5 text-lg font-normal text-gray-500">Edit Profile</h3>
+               {/* <h3 className="mb-5 text-lg font-normal text-gray-500">Edit Profile</h3> */}
 
                <Input
                   type="text"
@@ -110,32 +111,32 @@ export default function UpdateProfile({
                   label="Email Address"
                   placeholder={userProfile.userEmail || userEmail}
                />
+               <Input
+                  type="text"
+                  register={register}
+                  refLabel="userDescription"
+                  label="Description"
+                  placeholder={userProfile.userDescription || userDescription || "I am a mysterious person who has yet to fill out my bio"}
+               />
 
-               <div className="mb-4">
-                  <label className="block text-sm font-medium">Description</label>
-                  <textarea placeholder={userProfile.userDescription || userDescription || "I am a mysterious person who has yet to fill out my bio"}
-                     {...register('userDescription')} className="mt-1 p-2 border rounded w-full" />
-               </div>
-
-               <div className="bg-gray-200 my-4 p-4 flex items-center justify-center rounded-md">
+               {/* <div className="bg-gray-200 my-4 p-4 flex items-center justify-center rounded-md">
                   <FaFileImage size={24} color="white" />
                   <input
                      type="file"
                      {...register('file', { required: true })}
                      className="file:bg-gray-200 file:text-white file:border-none file:px-4 file:py-2 ml-4 cursor-pointer text-white"
                   />
-               </div>
-
-               <div className="flex justify-end gap-5">
-                  <button
-                     type="submit"
-                     className="font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center bg-blue-400 hover:bg-blue-500 text-gray-50  focus:ring-4 focus:ring-blue-300 focus:outline-none border focus:z-10 w-full"
-                  >
-                     SAVE
-                  </button>
-               </div>
+               </div> */}
+               <button
+                  type="submit"
+                  className="font-medium rounded-lg text-sm py-2.5 text-center bg-blue-400 hover:bg-blue-500 text-gray-50  focus:ring-4 focus:ring-blue-300 focus:outline-none border focus:z-10 flex items-center justify-center w-full mt-4"
+               >
+                  SAVE
+               </button>
             </div>
          </form>
+
+         <ToastContainer />
       </div>
    )
 }

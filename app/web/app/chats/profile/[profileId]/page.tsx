@@ -42,7 +42,6 @@ export default function ProfileId({ params }: {
                 setUserProfile(result.data);
                 setLoading(!loading);
             } catch (err) {
-                console.log('Failed to fetch users');
                 setLoading(!loading);
             }
         }
@@ -76,7 +75,7 @@ export default function ProfileId({ params }: {
                                     <p className="text-slate-500 text-sm">{userProfile.userEmail}</p>
                                     <div className="text-slate-500 text-sm flex gap-3 items-center py-2">
                                         <FaCalendarWeek size={18} />
-                                        <p>Joined {userProfile.created}</p>
+                                        <p>Joined {String(userProfile.created).split('T')[0]}</p>
                                     </div>
                                     <p>
                                         {userProfile.userDescription ? userProfile.userDescription : "I am a mysterious who has yet to fill out my bio"}

@@ -24,6 +24,7 @@ import Alert from '../ui/Alert';
 import { useState } from "react";
 import { AiOutlineUserSwitch } from 'react-icons/ai';
 import { FaUserCircle } from 'react-icons/fa';
+// import { AiOutlineUserSwitch } from 'react-icons/ai';
 import axiosInstance from '@/config/axios.config';
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -48,29 +49,29 @@ export default function SidebarHeader({ avatarURL, }: { avatarURL?: string; }) {
       }
    }
    return (
-      <header className="p-4 border-b border-gray-300 flex justify-between items-center">
-         <div className="flex gap-3 items-center">
-            <AiFillWechat size={40} className='fill-blue-500' />
-            <h1 className="text-2xl font-semibold text-blue-400 hover:text-blue-500">CHATS</h1>
-         </div>
-         <div className="flex items-center gap-3">
-            <Link href={'/chats/profile'} className="flex items-center gap-3">
-               <div className={`w-10 h-10 rounded-full text-gray-50 overflow-hidden hover:cursor-pointer`}>
-                  {avatarURL ? (
-                     <Image src={avatarURL} alt="Avatar" layout="fill" className={`w-10 h-10`} />
-                  ) : (
-                     <FaUserCircle
-                        size={40}
-                        className="fill-blue-500"
-                     />
-                  )}
+      <header className="p-4 border-b border-gray-300">
+         <div className='flex items-center justify-between w-full'>
+            <div className="flex gap-3 items-center">
+               <AiFillWechat size={32} className='fill-blue-500' />
+               <h1 className="text-2xl font-semibold text-blue-500">CHATS</h1>
+            </div>
+            <div className="flex items-center gap-3 flex-1 justify-end">
+               <Link href={'/chats/profile'} className="flex items-center">
+                  <div className={`w-10 h-10 rounded-full text-gray-50 overflow-hidden hover:cursor-pointer`}>
+                     {avatarURL ? (
+                        <Image src={avatarURL} alt="Avatar" layout="fill" className={`w-8 h-8`} />
+                     ) : (
+                        <FaUserCircle
+                           size={40}
+                           className="fill-blue-500"
+                        />
+                     )}
+                  </div>
+               </Link>
+               <div className='bg-red-400 rounded-full p-1 hover:bg-red-500 hover:cursor-pointer' onClick={cancel}>
+                  <AiOutlineUserSwitch size={32} className='fill-white' />
                </div>
-            </Link>
-            <Button
-               title="Signout"
-               className="bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300"
-               handleClick={cancel}
-            />
+            </div>
          </div>
 
          <Alert
