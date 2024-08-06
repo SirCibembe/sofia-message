@@ -17,8 +17,6 @@
 import { ReactNode } from "react";
 import type { Metadata } from "next";
 import Sidebar from "@/components/layouts/Sidebar";
-import { useAuth } from "@/hooks/useAuth";
-// import './index.css';
 
 type RootLayoutProps = {
    children: ReactNode;

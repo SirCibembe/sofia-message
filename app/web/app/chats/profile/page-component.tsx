@@ -1,9 +1,8 @@
 "use client";
 import { useState, useContext, useEffect } from "react";
-import Button from "@/components/Button";
-import Alert from "@/components/Alert";
-import dynamic, { noSSR } from "next/dynamic";
-// import UpdateProfile from "@/components/UpdateProfile";
+import Button from "@/components/ui/Button";
+import Alert from "@/components/ui/Alert";
+import dynamic from "next/dynamic";
 import { FaCalendarWeek, FaUserAltSlash } from 'react-icons/fa';
 import { FaUserCheck } from 'react-icons/fa';
 import { AuthContext } from "@/contexts/authContext";
@@ -11,7 +10,7 @@ import axiosInstance from "@/config/axios.config";
 import { useRouter } from "next/navigation";
 
 
-const UpdateProfile = dynamic(() => import('@/components/UpdateProfile'), { ssr: false });
+const UpdateProfile = dynamic(() => import('@/components/ui/UpdateProfile'), { ssr: false });
 export default function ProfilePage() {
    const router = useRouter();
    const { userName, userDescription, userAvatarURL, userEmail, created, userId } = useContext(AuthContext);

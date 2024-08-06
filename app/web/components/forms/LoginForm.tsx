@@ -16,8 +16,8 @@
  */
 "use client";
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Button from "@/components/Button";
-import Input from "@/components/Input";
+import Input from '../ui/Input';
+import Button from '../ui/Button';
 import Link from "next/link";
 import { signin } from '@/utils/userAPI';
 import { useContext, useState } from 'react';

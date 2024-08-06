@@ -20,7 +20,7 @@ export default function ChatHeader({ avatarURL = "", userName, userId }: { avata
    return (
       <header className="bg-white p-4 text-gray-700 flex justify-between border-b border-gray-200 w-full">
          <h1 className="text-2xl font-semibold">{userName}</h1>
-         <Link href={`/profile/${userId}`}>
+         <Link href={`/chats/profile/${userId}`}>
             <div className={`w-10 h-10 rounded-full bg-blue-400 text-gray-50 overflow-hidden hover:cursor-pointer`}>
                {avatarURL ? (
                   <img

@@ -15,16 +15,13 @@
  * limitations under the License.
  */
 "use client";
-
 import { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import Button from "./Button";
 import Input from "./Input";
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaUserEdit, FaFileImage } from 'react-icons/fa';
 import { AuthContext } from "@/contexts/authContext";
-import axiosInstance from "@/utils/axios.config";
-import { log } from "console";
+import axiosInstance from "@/config/axios.config";
 
 interface InputProps {
    userName?: string;

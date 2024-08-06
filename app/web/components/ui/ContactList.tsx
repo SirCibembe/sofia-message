@@ -60,7 +60,7 @@ export default function ContactList() {
                   ?.map((user: any) => (
                      <Link
                         key={user.userId}
-                        href={`/${user.userId}`}>
+                        href={`/chats/${user.userId}`}>
                         <UserCard
                            userName={user.userName}
                            userEmail={user.userDescription ? user.userDescription : "I am a mysterious who has yet to fill out my bio"}

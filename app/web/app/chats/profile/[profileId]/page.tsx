@@ -16,10 +16,10 @@
  */
 'use client';
 import { useEffect, useState } from "react";
-import Button from "@/components/Button";
+import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { FaCalendarWeek, FaUserCheck } from 'react-icons/fa';
-import axiosInstance from "@/utils/axios.config";
+import axiosInstance from "@/config/axios.config";
 
 export default function ProfileId({ params }: {
     params: {
@@ -88,7 +88,7 @@ export default function ProfileId({ params }: {
                     <Button
                         className="bg-blue-400 hover:bg-blue-500 w-full focus:ring-blue-300 justify-center items-center"
                         title="GO BACK"
-                        handleClick={() => goBack(`/${params.profileId}`)}
+                        handleClick={() => goBack(`/chats/${params.profileId}`)}
                     />
                 </div>
                 {/* Card end */}

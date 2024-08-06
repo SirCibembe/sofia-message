@@ -1,5 +1,4 @@
-import axiosInstance from "./axios.config";
-
+import axiosInstance from "@/config/axios.config";
 
 // send a message
 

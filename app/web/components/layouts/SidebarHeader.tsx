@@ -17,10 +17,10 @@
 "use client";
 import { AiFillWechat } from 'react-icons/ai';
 import Image from "next/image";
-import Button from "../Button";
+import Button from '../ui/Button';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Alert from "../Alert";
+import Alert from '../ui/Alert';
 import { useState } from "react";
 import { AiOutlineUserSwitch } from 'react-icons/ai';
 import { FaUserCircle } from 'react-icons/fa';
@@ -54,7 +54,7 @@ export default function SidebarHeader({ avatarURL, }: { avatarURL?: string; }) {
             <h1 className="text-2xl font-semibold text-blue-400 hover:text-blue-500">CHATS</h1>
          </div>
          <div className="flex items-center gap-3">
-            <Link href={'/profile'} className="flex items-center gap-3">
+            <Link href={'/chats/profile'} className="flex items-center gap-3">
                <div className={`w-10 h-10 rounded-full text-gray-50 overflow-hidden hover:cursor-pointer`}>
                   {avatarURL ? (
                      <Image src={avatarURL} alt="Avatar" layout="fill" className={`w-10 h-10`} />

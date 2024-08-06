@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import { useState } from 'react';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 export default function Input(
    {
@@ -26,16 +27,31 @@ export default function Input(
       className = '',
    }: IInputProps
 ) {
+   const [showPassword, setShowPassword] = useState(false);
+
+   const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+   }
    return (
       <div className={`mt-6 ${className}`}>
          <label htmlFor={refLabel} className="block text-sm font-medium leading-5 text-gray-700">{label}</label>
-         <div className="mt-1 rounded-md shadow-sm">
+         <div className="mt-1 rounded-md shadow-sm flex items-center justify-between appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
             <input
-               type={type}
+               type={showPassword ? "text" : type}
                {...register(refLabel)}
-               className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+               className="appearance-none block w-full py-1 placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                placeholder={placeholder}
             />
+            {
+               type === "password" && (
+                  <span
+                     onClick={togglePasswordVisibility}
+                     className='hover:cursor-pointer'
+                  >
+                     {showPassword ? <AiFillEye className='fill-gray-700' size={24} /> : <AiFillEyeInvisible size={24} className='fill-gray-700' />}
+                  </span>
+               )
+            }
          </div>
       </div>
    )

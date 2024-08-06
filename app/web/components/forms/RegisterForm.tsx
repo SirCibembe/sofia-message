@@ -21,7 +21,7 @@ import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { create } from '@/utils/userAPI';
-import RegistrationSuccessPopup from '@/components/RegisterPop';
+import RegistrationSuccessPopup from '@/components/ui/RegisterPop';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 

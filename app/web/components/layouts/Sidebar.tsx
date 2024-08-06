@@ -1,7 +1,7 @@
 'use client';
 
 import SidebarHeader from "./SidebarHeader"
-import ContactList from "../ContactList";
+import ContactList from "../ui/ContactList";
 
 export default function Sidebar() {
    return (

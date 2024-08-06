@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
-import ChatHeader from "@/components/ChatHeader";
+import ChatHeader from "@/components/layouts/ChatHeader";
 import { useForm, SubmitHandler } from "react-hook-form";
-import UserMessage from "@/components/UserMessage";
+import UserMessage from "@/components/ui/UserMessage";
 import { sendMessage } from "@/utils/messageAPI";
 import { AuthContext } from "@/contexts/authContext";
 import { AiFillWechat, } from 'react-icons/ai';
