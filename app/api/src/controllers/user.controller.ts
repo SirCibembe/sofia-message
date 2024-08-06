@@ -20,6 +20,9 @@ import isValidEmail from '../utils/isValidEmail';
 import isValidInput from '../utils/isValidInput';
 import isValidPassword from '../utils/isValidPassword';
 import { encryptPassword } from "../models/user.model";
+// import formidable from 'formidable';
+// import fs from 'fs';
+// import path from 'path';
 import client from "../client";
 
 export default class UserController {

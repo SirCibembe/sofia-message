@@ -16,9 +16,8 @@
  */
 
 import Avatar from "./Avatar";
-
 export default function UserCard({
-   userName = "unknown",
+   userName,
    userEmail,
 }: {
    userName?: string;
@@ -27,7 +26,6 @@ export default function UserCard({
    return (
       <div className="flex items-center mb-2 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
          <div className="w-12 h-12 rounded-full mr-3">
-            {/* <Avatar className="w-12 h-12" /> */}
             <Avatar
                className="w-32 h-32"
                avatarURL={null}

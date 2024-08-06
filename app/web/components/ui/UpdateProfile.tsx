@@ -63,9 +63,6 @@ export default function UpdateProfile({
    }, [userProfileId]);
 
    const onSubmit: SubmitHandler<InputProps> = async (updatedData) => {
-      alert("something happenned");
-      console.log('Submit');
-      console.log(updatedData);
       try {
          const response = await axiosInstance.put(`/api/users/${userProfileId}`, {
             userName: updatedData.userName ? updatedData.userName : userProfile.userName || userName,
@@ -95,8 +92,6 @@ export default function UpdateProfile({
 
             <div className="p-4 md:p-5 text-center">
                <FaUserEdit className='mx-auto mb-4 text-gray-400 w-12 h-12' />
-               {/* <h3 className="mb-5 text-lg font-normal text-gray-500">Edit Profile</h3> */}
-
                <Input
                   type="text"
                   register={register}

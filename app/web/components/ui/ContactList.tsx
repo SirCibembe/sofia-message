@@ -21,6 +21,7 @@ import { useEffect, useState, useContext } from 'react';
 import { list } from '@/utils/userAPI';
 import Link from 'next/link';
 import { AuthContext } from '@/contexts/authContext';
+import { toast } from 'react-toastify';
 
 export default function ContactList() {
    const { userId } = useContext(AuthContext);
@@ -31,8 +32,8 @@ export default function ContactList() {
          try {
             const userList = await list(controller.signal);
             setContactList(await userList.users);
-         } catch (err) {
-            console.log('Failed to fetch users');
+         } catch (err: any) {
+            toast.info(err.message);
          }
       }
       fetchData()
@@ -62,7 +63,7 @@ export default function ContactList() {
                         key={user.userId}
                         href={`/chats/${user.userId}`}>
                         <UserCard
-                           userName={user.userName}
+                           userName={user.userId == localStorage.getItem('currentUserId') ? "Me" : user.userName}
                            userEmail={user.userDescription ? user.userDescription : "I am a mysterious who has yet to fill out my bio"}
                         />
                      </Link>
