@@ -16,9 +16,11 @@
  */
 "use client";
 import { useState } from "react";
-// import formatDateToSwahiliEAT from '@/utils/dateFormatter';
 import Avatar from "./Avatar";
-import { FaEllipsisV } from "react-icons/fa"; // Importing an icon for the dropdown menu
+import { FaEllipsisV } from "react-icons/fa";
+import axiosInstance from "@/config/axios.config";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function UserMessage({
    messageContent,
@@ -26,7 +28,8 @@ export default function UserMessage({
    currentId,
    currentUserId,
    senderName = 'Unknown user',
-   time
+   time,
+   messageId
 }: {
    messageContent: string;
    avatarURL?: string;
@@ -34,19 +37,35 @@ export default function UserMessage({
    currentId: string;
    currentUserId: string;
    senderName?: string | null;
+   messageId: string;
 }) {
    const sfIsCurrentUserMessage = currentId === currentUserId;
    const [isEditing, setIsEditing] = useState(false);
    const [editedMessage, setEditedMessage] = useState(messageContent);
    const [showDropdown, setShowDropdown] = useState(false);
 
-   const handleEdit = () => {
-      // Add your logic to save the edited message
-      setIsEditing(false);
+   const handleEdit = async () => {
+      try {
+         const resp = await axiosInstance.put(`/api/messages/${messageId}`, { messageContent: editedMessage });
+         const result = await resp.data;
+         toast.success(result.message ? result.message : null);
+         toast.error(result.error ? result.error: null);
+         setIsEditing(false);
+      } catch (error: any) {
+         toast.info(error?.message);
+      }
    };
 
-   const handleDelete = () => {
-      // Add your logic to delete the message
+   const handleDelete = async () => {
+      try {
+         const resp = await axiosInstance.delete(`/api/messages/${messageId}`);
+         const result = await resp.data;
+         toast.info(result);
+         toast.success(result.message? result.message : null);
+         toast.error(result.error ? result.error: null);
+      } catch (error: any) {
+         toast.info(error.message);
+      }
    };
 
    const handleCancel = () => {
@@ -133,6 +152,8 @@ export default function UserMessage({
                </div>
             </div>
          )}
+
+         <ToastContainer />
       </>
    );
 }

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import MessageController from "../controllers/message.controller";
 import AuthController from "../controllers/auth.controller";
+// import authenticateToken from "src/middlewares/authenticateToken";
 
 const router = Router();
 
@@ -14,9 +15,10 @@ router.route('/api/messages')
 
 router.route('/api/messages/:messageId')
    .get([AuthController.requireSignin, MessageController.read])
-   .put([AuthController.requireSignin, AuthController.hasAuthorization, MessageController.update])
-   .delete([AuthController.requireSignin, AuthController.hasAuthorization, MessageController.remove]);
+   .put([AuthController.requireSignin, MessageController.update])
+   .delete([AuthController.requireSignin, MessageController.remove]);
 
+   // AuthController.hasAuthorization,
 
 router.param('messageId', MessageController.messageById);
 

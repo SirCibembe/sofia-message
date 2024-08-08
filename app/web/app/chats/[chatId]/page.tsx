@@ -119,6 +119,7 @@ export default function ChatByUser({ params }: {
                ) : (
                   messageList?.map((message: any) => (
                      <UserMessage
+                        messageId={message.messageId}
                         key={message.messageId}
                         messageContent={message.messageContent}
                         time={message.created}
