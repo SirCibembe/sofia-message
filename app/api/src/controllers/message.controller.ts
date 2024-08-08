@@ -289,20 +289,22 @@ export default class MessageController {
    ): Promise<void> {
       try {
          const { messageContent } = req.body;
-         let message = req.currentMessage;
-         const messageId = message.messageId;
+         // let message = req.currentMessage;
+         const messageId = req.params.messageId;
          await messageSchema.update({
             where: {
                messageId: messageId
             },
             data: {
                messageContent: messageContent,
-               updated: new Date().toUTCString()
+               updated: new Date()
             }
          });
-         res.send('Message edited!');
+         res.status(200).json({
+            message: 'Message edited!'
+         });
       } catch (error: any) {
-         res.status(500).json({ message: error.message });
+         res.status(500).json({ error: error.message });
       } finally {
          await client.$disconnect();
       }
@@ -314,18 +316,20 @@ export default class MessageController {
     */
    static async remove(req: Request, res: Response): Promise<void> {
       try {
-         const { id } = req.params;
-         if (!id) {
-            res.status(403).json({ error: 'this message does not exit' });
+         const { messageId } = req.params;
+         if (!messageId) {
+            res.status(403).send('This message does not exit');
             return;
          }
-         const deletedMessage = await messageSchema.delete({ where: { messageId: id } });
+         const deletedMessage = await messageSchema.delete({ where: { messageId: messageId } });
          if (!deletedMessage) {
             res.send('something went wrong! try again later!');
          }
-         res.status(200).send('message deleted succesffully');
+         res.status(200).json({
+            message:'message deleted succesffully'
+      });
       } catch (error: any) {
-         res.status(500).json({ message: error.message });
+         res.status(400).json({ error: error.message });
       } finally {
          await client.$disconnect();
       }
