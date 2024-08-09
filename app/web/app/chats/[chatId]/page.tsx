@@ -19,7 +19,10 @@ export default function ChatByUser({ params }: {
       chatId: string;
    }
 }) {
-
+   const [message, setMessage] = useState('');
+   const [typing, setTyping] = useState(false);
+   const [someoneTyping, setSomeoneTyping] = useState(false);
+   // const [typing, setTyping] = useState('');
    const { userId } = useContext(AuthContext);
    const [senderName, setSenderName] = useState('');
    const [messageList, setMessageList] = useState<any>([]);
@@ -28,6 +31,22 @@ export default function ChatByUser({ params }: {
    /**
     * socket io client
     */
+
+   useEffect(() => {
+      socket.on('typing', () => {
+          setSomeoneTyping(true);
+      });
+
+      socket.on('stopTyping', () => {
+          setSomeoneTyping(false);
+      });
+
+      return () => {
+          socket.off('typing');
+          socket.off('stopTyping');
+      };
+  }, []);
+
 
    useEffect(() => {
       socket.on('receiveMessage', (message) => {
@@ -39,6 +58,25 @@ export default function ChatByUser({ params }: {
       };
       // console.log('some connection');
    }, []);
+
+   /**
+    * activity socket
+    */
+
+   useEffect(() => {
+
+      socket.on('typing', (data: any) => {
+         console.log(data);
+         // console.log(data);
+         // alert("Heyllo");
+         alert(data);
+         setTyping(data);
+      });
+
+      return () => {
+         socket.off('activity');
+      }
+   }, [])
 
    /**
     * load the sender Name from the server
@@ -98,12 +136,20 @@ export default function ChatByUser({ params }: {
       }
    }
 
+   // handle key press function
+
+   const handleKeyPress = (ev: React.KeyboardEvent<HTMLInputElement>) => {
+      // socket.on("typing", () => setTyping('typing...'));
+      console.log(ev.key);
+   }
+
    return (
       <div className="flex-1">
          {/* <!-- Chat Header --> */}
          <ChatHeader
             userName={senderName}
             userId={params.chatId}
+            typing={message}
          />
          {/* <!-- Chat Messages --> */}
          <div className="h-screen overflow-y-auto p-4 pb-36">
@@ -142,6 +188,7 @@ export default function ChatByUser({ params }: {
                   type="text"
                   placeholder="Type a message..."
                   {...register('messageContent', { required: true, })}
+                  onKeyPress={handleKeyPress}
                   className="w-full p-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-[#8098F9]"
                />
                <button

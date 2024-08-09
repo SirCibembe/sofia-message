@@ -16,10 +16,23 @@
  */
 import Link from "next/link";
 
-export default function ChatHeader({ avatarURL = "", userName, userId }: { avatarURL?: string, userName: string, userId?: string }) {
+export default function ChatHeader({
+   avatarURL = "",
+   userName,
+   userId,
+   typing = ""
+}:{
+   avatarURL?: string,
+   userName: string,
+   userId?: string,
+   typing?: string;
+}) {
    return (
       <header className="bg-white p-4 text-gray-700 flex justify-between border-b border-gray-200 w-full">
-         <h1 className="text-2xl font-semibold">{userName}</h1>
+         <div>
+            <h1 className="text-xl font-semibold">{userName}</h1>
+            <p className="text-sm italic">{typing}</p>
+         </div>
          <Link href={`/chats/profile/${userId}`}>
             <div className={`w-10 h-10 rounded-full bg-blue-400 text-gray-50 overflow-hidden hover:cursor-pointer`}>
                {avatarURL ? (
