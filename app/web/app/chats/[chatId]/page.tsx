@@ -155,11 +155,11 @@ export default function ChatByUser({
         typing={message}
       />
       {/* PLAY SOUND -> NOTE THIS COMPONENT WON'T BE VISIBLE */}
-      <PlaySound
+      {/* <PlaySound
         soundFile={'/plink.mp3'}
         play={playSendSound}
         onPlayEnd={() => setPlaySendSound(false)}
-      />
+      /> */}
       <PlaySound
         soundFile={'/ding.mp3'}
         play={playReceiveSound}
