@@ -37,7 +37,7 @@ export default function ContactList() {
          }
       }
       fetchData()
-   }, [userId, contactList]);
+   }, []);
    
    return (
       <div className="overflow-y-auto h-screen p-3 mb-9 pb-20">

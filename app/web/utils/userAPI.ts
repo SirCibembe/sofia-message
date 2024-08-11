@@ -16,6 +16,7 @@
  */
 import axiosInstance from '@/config/axios.config';
 import appConfig from '@/config/app.config';
+import axios from 'axios';
 
 // fetch all users available in the database
 
@@ -38,7 +39,7 @@ export async function list(signal?: AbortSignal) {
 
 export async function create(data: IUserRegister) {
    try {
-      let response = await axiosInstance.post(`${appConfig.BACKEND_URL}/api/users/`, data, {
+      let response = await axios.post(`${appConfig.BACKEND_URL}/api/users/`, data, {
          headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ export async function read(
 
 export async function signin(user: IUserLogin) {
    try {
-      let response = await axiosInstance.post('/auth/signin/', user, {
+      let response = await axios.post(`${appConfig.BACKEND_URL}/auth/signin/`, user, {
          headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

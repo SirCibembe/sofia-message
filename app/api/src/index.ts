@@ -19,4 +19,5 @@ import mainConfig from "./config/config";
 import { initSocket } from './config/socket';
 
 initSocket(server);
+console.log(mainConfig.port);
 server.listen(mainConfig.port);
