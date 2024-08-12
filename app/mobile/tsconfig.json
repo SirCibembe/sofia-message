@@ -1,5 +1,20 @@
 {
   "compilerOptions": {
+    "jsx": "react-native",
+    "target": "esnext",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "strict": true,
     "paths": {
       "@/*": [
