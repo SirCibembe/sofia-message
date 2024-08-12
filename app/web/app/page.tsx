@@ -17,7 +17,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 export default function HomeScreen() {
-   const router = useRouter();
-   router.push('/chats');
+   // const router = useRouter();
+   // router.push('/chats');
    return null;
 }

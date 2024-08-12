@@ -19,32 +19,31 @@ import type { Metadata } from "next";
 import Sidebar from "@/components/layouts/Sidebar";
 
 type RootLayoutProps = {
-   children: ReactNode;
-}
-
-export const metadata: Metadata = {
-   title: "sofia-message-web",
-   description: "home page, homescreen sofia-message-web",
+  children: ReactNode;
 };
 
+export const metadata: Metadata = {
+  title: "sofia-message-web",
+  description: "home page, homescreen sofia-message-web",
+};
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
-   // const isLogged = useAuth();
+  // const isLogged = useAuth();
 
-   // if (!isLogged) {
-   //    return <h1>Loading...</h1>
-   // }
+  // if (!isLogged) {
+  //    return <h1>Loading...</h1>
+  // }
 
-   return (
-      <html lang="en">
-         <body>
-            <div className="flex h-screen overflow-hidden">
-               {/* sidebar -> aside part */}
-               <Sidebar />
-               {/* <!-- Main Chat Area --> */}
-               {children}
-            </div>
-         </body>
-      </html>
-   );
+  return (
+    <html lang="en">
+      <body>
+        <div className="flex h-screen overflow-hidden">
+          {/* sidebar -> aside part */}
+          <Sidebar />
+          {/* <!-- Main Chat Area --> */}
+          <div className="hidden md:block">{children}</div>
+        </div>
+      </body>
+    </html>
+  );
 }

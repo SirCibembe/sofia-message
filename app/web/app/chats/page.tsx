@@ -18,7 +18,7 @@
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 export default function HomeScreen() {
-   useAuth();
+   // useAuth();
    return (
       <div className="flex-1">
          <div className="flex-1 h-screen flex items-center justify-center text-slate-800 flex-col gap-6 w-full">

@@ -25,6 +25,8 @@ import { AuthContext } from "@/contexts/authContext";
 import { toast } from "react-toastify";
 
 export default function ContactList() {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const { userId } = useContext(AuthContext);
   let [contactList, setContactList] = useState<any>(null);
@@ -56,9 +58,9 @@ export default function ContactList() {
         </div>
       </div>
 
-      {contactList?.length == 0 || !contactList || contactList == null ? (
+      {(contactList?.length == 0 || !contactList || contactList == null) && loading  ? (
         <div>
-          {Array(5)
+          {Array(20)
             .fill(0)
             .map((_, index) => (
               <UserCardSkeleton key={index} />
